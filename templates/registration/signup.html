@@ -1,8 +1,163 @@
-{%extends "base.html"%}
-{%block content%}
-<h2>Sign Up </h2>
-    <form method="post">{%csrf_token%}
-        {{form.as_p}}
-        <button type="submit">Sign Up</button>
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-header bg-dark text-white text-center">
+                    <h4 class="mb-0">Join CS Fishbowl Tutoring</h4>
+                    <small>Create your TA account</small>
+                </div>
+                <div class="card-body p-4">
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                                {{ message }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                    
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="id_username" class="form-label">Username</label>
+                                <input type="text" class="form-control" name="username" id="id_username" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="id_email" class="form-label">Email</label>
+                                <input type="email" class="form-control" name="email" id="id_email" required>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="id_first_name" class="form-label">First Name</label>
+                                <input type="text" class="form-control" name="first_name" id="id_first_name" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="id_last_name" class="form-label">Last Name</label>
+                                <input type="text" class="form-control" name="last_name" id="id_last_name" required>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="id_password1" class="form-label">Password</label>
+                                <input type="password" class="form-control" name="password1" id="id_password1" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="id_password2" class="form-label">Confirm Password</label>
+                                <input type="password" class="form-control" name="password2" id="id_password2" required>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Days Available for Tutoring</label>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="days_tutor_for" value="1" id="day_monday">
+                                        <label class="form-check-label" for="day_monday">Monday</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="days_tutor_for" value="2" id="day_tuesday">
+                                        <label class="form-check-label" for="day_tuesday">Tuesday</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="days_tutor_for" value="3" id="day_wednesday">
+                                        <label class="form-check-label" for="day_wednesday">Wednesday</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="days_tutor_for" value="4" id="day_thursday">
+                                        <label class="form-check-label" for="day_thursday">Thursday</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-2">
+                                <div class="col-md-3">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="days_tutor_for" value="5" id="day_friday">
+                                        <label class="form-check-label" for="day_friday">Friday</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="days_tutor_for" value="6" id="day_saturday">
+                                        <label class="form-check-label" for="day_saturday">Saturday</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="days_tutor_for" value="7" id="day_sunday">
+                                        <label class="form-check-label" for="day_sunday">Sunday</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label class="form-label">Classes You Can Tutor</label>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="classes_tutor_for" value="CSCI150" id="class_150">
+                                        <label class="form-check-label" for="class_150">CSCI150</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="classes_tutor_for" value="CSCI151" id="class_151">
+                                        <label class="form-check-label" for="class_151">CSCI151</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="classes_tutor_for" value="CSCI152" id="class_152">
+                                        <label class="form-check-label" for="class_152">CSCI152</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-2">
+                                <div class="col-md-4">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="classes_tutor_for" value="CSCI258" id="class_258">
+                                        <label class="form-check-label" for="class_258">CSCI258</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="classes_tutor_for" value="CSCI340" id="class_340">
+                                        <label class="form-check-label" for="class_340">CSCI340</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="classes_tutor_for" value="CSCI447" id="class_447">
+                                        <label class="form-check-label" for="class_447">CSCI447</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary btn-lg">Create Account</button>
+                        </div>
     </form>
-{%endblock content%}
+                    
+                    <div class="text-center mt-4">
+                        <small class="text-muted">Already have an account? <a href="{% url 'login' %}" class="text-decoration-none">Sign in here</a></small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
