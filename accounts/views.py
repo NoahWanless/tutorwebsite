@@ -20,9 +20,5 @@ class SignUpView(CreateView):
 class LogoutView(View):
     def post(self, request):
         logout(request)
-        messages.success(request, 'You have been logged out successfully.', extra_tags='logout')
+        messages.success(request, 'You have been logged out successfully.')
         return redirect('home')
-
-class AccountSettingsView(View):
-    def get(self, request):
-        return render(request, 'accounts/settings.html')

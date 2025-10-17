@@ -4,61 +4,18 @@
 
 {% block content %}
 <div class="py-4">
-    <div class="text-center mb-5">
+    <div class="text-center mb-4">
         <h1 class="display-5 fw-semibold">Tutoring Hours</h1>
         <p class="text-muted">Find available TAs and their office hours in the CS Fishbowl.</p>
     </div>
-        <hr class="my-5">
+
+    <!-- render TA cards here-->
     <div class="row g-4" id="ta-list">
-        {% for tutor in tutors %}
-        <div class="col-md-6 col-lg-4">
-            <div class="card h-100 shadow-sm">
-                <div class="card-header bg-dark text-white">
-                    <h5 class="card-title mb-0">{{ tutor.first_name }} {{ tutor.last_name }}</h5>
-                </div>
-                <div class="card-body">
-                    <div class="mb-3">
-                        <strong>Email:</strong><br>
-                        <small class="text-muted">{{ tutor.email }}</small>
-                    </div>
-                    
-                    <div class="mb-3">
-                        <strong>Classes:</strong><br>
-                        <div class="d-flex flex-wrap gap-1">
-                            {% for class in tutor.classes_tutor_for %}
-                                <span class="badge bg-secondary">{{ class }}</span>
-                            {% endfor %}
-                        </div>
-                    </div>
-                    
-                    <div class="mb-3">
-                        <strong>Available Days:</strong><br>
-                        <div class="d-flex flex-wrap gap-1">
-                            {% for day in tutor.days_tutor_for %}
-                                {% if day == '1' %}<span class="badge bg-info">Monday</span>{% endif %}
-                                {% if day == '2' %}<span class="badge bg-info">Tuesday</span>{% endif %}
-                                {% if day == '3' %}<span class="badge bg-info">Wednesday</span>{% endif %}
-                                {% if day == '4' %}<span class="badge bg-info">Thursday</span>{% endif %}
-                                {% if day == '5' %}<span class="badge bg-info">Friday</span>{% endif %}
-                                {% if day == '6' %}<span class="badge bg-info">Saturday</span>{% endif %}
-                                {% if day == '7' %}<span class="badge bg-info">Sunday</span>{% endif %}
-                            {% endfor %}
-                        </div>
-                    </div>
-                </div>
-                <div class="card-footer bg-light">
-                    <small class="text-muted">Username: {{ tutor.username }}</small>
-                </div>
-            </div>
-        </div>
-        {% empty %}
         <div class="col-12">
-            <div class="alert alert-info text-center">
-                <h4>No tutors available</h4>
-                <p>Check back later for available tutors.</p>
+            <div class="alert alert-info mb-0" role="alert">
+                TA listings will go here.
             </div>
         </div>
-        {% endfor %}
     </div>
 </div>
 {% endblock content %}

@@ -13,21 +13,11 @@
             <div class="d-flex align-items-center">
                 <a class="nav-link d-inline text-white me-3" href="{% url 'home' %}">Home</a>
                 {% if user.is_authenticated %}
-                <div class="dropdown">
-                    <button class="btn btn-link text-white dropdown-toggle text-decoration-none" type="button" id="accountDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                        {{ user.first_name|default:user.username }}
-                    </button>
-                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="accountDropdown">
-                        <li><a class="dropdown-item" href="{% url 'settings' %}">Account Settings</a></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li>
-                            <form method="post" action="{% url 'logout' %}" class="d-inline">
-                                {% csrf_token %}
-                                <button type="submit" class="dropdown-item text-danger">Logout</button>
-                            </form>
-                        </li>
-                    </ul>
-                </div>
+                <span class="text-white me-3">Welcome, {{ user.first_name|default:user.username }}!</span>
+                <form method="post" action="{% url 'logout' %}" class="d-inline">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-outline-light btn-sm">Logout</button>
+                </form>
                 {% else %}
                 <a class="btn btn-outline-light btn-sm me-2" href="{% url 'login' %}">Login</a>
                 <a class="btn btn-light btn-sm" href="{% url 'signup' %}">Sign Up</a>
