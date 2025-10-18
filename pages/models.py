@@ -31,7 +31,7 @@ class tutors(get_user_model()):
     #    on_delete=models.CASCADE,
     #)
     
-    classes_tutor_for = models.JSONField(default=list)
+    
     
     hours_tutor_for = models.JSONField(default=list) #7 entires and you put int he hours 
     
@@ -45,7 +45,7 @@ class tutors(get_user_model()):
         ('CSCI340','CSCI340'),
         ('CSCI447','CSCI447'),
     ]
-
+    classes_tutor_for = MultiSelectField(choices=CLASS_CHOICES, min_choices=1, max_choices=6)
 
 
     def __str__(self):
