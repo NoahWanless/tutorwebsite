@@ -12,7 +12,14 @@ class tutors(get_user_model()):
     
     #classes_tutor_for = models.JSONField(default=list)
     
-    hours_tutor_for = models.JSONField(default=list) #7 entires and you put int he hours 
+    hours_tutor_for_mon = models.JSONField(blank=True, default=list) 
+    #hours_tutor_for_tue = models.JSONField(blank=True,default=list) 
+    #hours_tutor_for_wed = models.JSONField(blank=True,default=list) 
+    #hours_tutor_for_thr = models.JSONField(blank=True,default=list) 
+    #hours_tutor_for_fri = models.JSONField(blank=True,default=list) 
+    #hours_tutor_for_sat = models.JSONField(blank=True,default=list) 
+    #hours_tutor_for_sun = models.JSONField(blank=True,default=list) 
+
     DAY_CHOICES = [
         ('1','Monday'),
         ('2','Tuesday'),
@@ -40,8 +47,8 @@ class tutors(get_user_model()):
      #   on_delete=models.CASCADE,
     #)
 
-    def __str__(self):
-        return f"{self.first_name} {self.last_name}"
+    #def __str__(self):
+        #return f"{self.first_name} {self.last_name}"
     
     def get_absolute_url(self): #for this post  reverse the full url name with this objects pk as the primary key in the url 
         return reverse("tutor_detail",kwargs={"pk":self.pk}) 
