@@ -17,6 +17,9 @@ class SignUpView(CreateView):
         messages.success(self.request, 'Account created successfully! Please log in.')
         return response
 
+
+
+
 class LogoutView(View):
     def post(self, request):
         logout(request)

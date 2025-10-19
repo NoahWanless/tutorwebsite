@@ -3,6 +3,19 @@ from django.urls import reverse
 from django.contrib.auth import get_user_model
 from multiselectfield import MultiSelectField
 #models.Model
+HOUR_CHOICES = [
+        ('7','7-8am'),
+        ('8','8-9am'),
+        ('9','9-10am'),
+        ('10','10-11am'),
+        ('11','11-12pm'),
+        ('12','12-1pm'),
+        ('13','1-2pm'),
+        ('14','2-3pm'),
+        ('15','3-4pm'),
+        ('16','4-5pm'),
+        ('17','5-6pm'),
+    ]
 class tutors(get_user_model()):
     
     #username = models.ForeignKey( #makes this element a forgin key, ie has to match with primary key of another table
@@ -12,14 +25,15 @@ class tutors(get_user_model()):
     
     #classes_tutor_for = models.JSONField(default=list)
     
-    hours_tutor_for_mon = models.JSONField(blank=True, default=list) 
-    #hours_tutor_for_tue = models.JSONField(blank=True,default=list) 
-    #hours_tutor_for_wed = models.JSONField(blank=True,default=list) 
-    #hours_tutor_for_thr = models.JSONField(blank=True,default=list) 
-    #hours_tutor_for_fri = models.JSONField(blank=True,default=list) 
-    #hours_tutor_for_sat = models.JSONField(blank=True,default=list) 
-    #hours_tutor_for_sun = models.JSONField(blank=True,default=list) 
-
+    hours_tutor_for_mon = MultiSelectField(choices=HOUR_CHOICES, min_choices=0, max_choices=11,blank=True)
+    hours_tutor_for_tue = MultiSelectField(choices=HOUR_CHOICES, min_choices=0, max_choices=11,blank=True)
+    hours_tutor_for_wed = MultiSelectField(choices=HOUR_CHOICES, min_choices=0, max_choices=11,blank=True)
+    hours_tutor_for_thr = MultiSelectField(choices=HOUR_CHOICES, min_choices=0, max_choices=11,blank=True)
+    hours_tutor_for_fri = MultiSelectField(choices=HOUR_CHOICES, min_choices=0, max_choices=11,blank=True)
+    hours_tutor_for_sat = MultiSelectField(choices=HOUR_CHOICES, min_choices=0, max_choices=11,blank=True)
+    hours_tutor_for_sun = MultiSelectField(choices=HOUR_CHOICES, min_choices=0, max_choices=11,blank=True)
+    
+    
     DAY_CHOICES = [
         ('1','Monday'),
         ('2','Tuesday'),
@@ -30,7 +44,6 @@ class tutors(get_user_model()):
         ('7','Sunday'),
     ]
     days_tutor_for = MultiSelectField(choices=DAY_CHOICES, min_choices=1, max_choices=7)
-    #days_tutor_for = models.CharField(max_length=7,choices=DAY_CHOICES,default='1')
     CLASS_CHOICES = [
         ('CSCI150','CSCI150'),
         ('CSCI151','CSCI151'),
@@ -41,11 +54,6 @@ class tutors(get_user_model()):
     ]
     classes_tutor_for = MultiSelectField(choices=CLASS_CHOICES, min_choices=1, max_choices=6)
 
-#class hours_model(models.Model):
-    #days = models.ForeignKey(
-     #   "days_tutor_for.tutors",
-     #   on_delete=models.CASCADE,
-    #)
 
     #def __str__(self):
         #return f"{self.first_name} {self.last_name}"
