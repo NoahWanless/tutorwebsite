@@ -1,5 +1,11 @@
 {% extends "base.html" %}
 {% block content %}
+{% load static %}
+<head>
+<link href="{% static 'css/stuff2.css' %}" rel="stylesheet">
+</head>
+<body>
+
 <div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-8">
@@ -292,14 +298,18 @@
 
 
 
-                            <div class="dropdown">
-                                <div class="dropdown-btn" onclick="toggleDropdown()">Select Options ▾</div>
-                                    <div class="dropdown-content" id="dropdownMenu">
-                                        <label><input type="checkbox" value="option1"> Option 1</label>
-                                        <label><input type="checkbox" value="option2"> Option 2</label>
-                                        <label><input type="checkbox" value="option3"> Option 3</label>
-                                    </div>
-                            </div>
+                        <div id="list1" class="dropdown-check-list" tabindex="100">
+                        <span class="anchor">Select Fruits</span>
+                        <ul class="items">
+                            <li><input type="checkbox" />Apple </li>
+                            <li><input type="checkbox" />Orange</li>
+                            <li><input type="checkbox" />Grapes </li>
+                            <li><input type="checkbox" />Berry </li>
+                            <li><input type="checkbox" />Mango </li>
+                            <li><input type="checkbox" />Banana </li>
+                            <li><input type="checkbox" />Tomato</li>
+                        </ul>
+                        </div>
                             
 
 
@@ -318,4 +328,6 @@
         </div>
     </div>
 </div>
+<script src="{% static 'js/stuff.css' %}"></script>
+</body>
 {% endblock content %}
