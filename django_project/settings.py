@@ -117,7 +117,12 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = 'static/' #whats used in the template, when this is called, its going to look at the locations
+#of those, looking for them in STATICFILES_DIRS
+
+STATICFILES_DIRS = [ 
+    BASE_DIR / "assests", 
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
