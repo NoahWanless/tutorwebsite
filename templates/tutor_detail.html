@@ -1,2 +1,21 @@
-<h1>tutor page</h1>
+{% extends "base.html" %}
+{% block title %}Tutor Detail{% endblock %}
+{% block content %}
+  <h2>{{ tutor.first_name }} {{ tutor.last_name }}</h2>
+  <p><strong>Email:</strong> {{ tutor.email }}</p>
+
+  <h5 class="mt-4">Classes</h5>
+  <div class="d-flex flex-wrap gap-1">
+    {% for c in tutor.classes_tutor_for %}
+      <span class="badge bg-secondary">{{ c }}</span>
+    {% empty %}
+      <span class="text-muted">None listed</span>
+    {% endfor %}
+  </div>
+
+  <h5 class="mt-4">Schedule</h5>
+
+  <a class="btn btn-outline-secondary mt-4" href="{% url 'home' %}">Back</a>
+{% endblock %}
+
 

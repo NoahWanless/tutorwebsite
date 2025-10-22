@@ -28,7 +28,7 @@
         <div class="col-md-6 col-lg-4">
             <div class="card h-100 shadow-sm">
                 <div class="card-header bg-dark text-white">
-                    <h5 class="card-title mb-0">{{ tutor.first_name }} {{ tutor.last_name }}</h5>
+                    <h5 class="card-title mb-0"><a href="{{ tutor.get_absolute_url }}">{{ tutor.first_name }} {{ tutor.last_name }}</a></h5>
                 </div>
                 <div class="card-body">
                     <div class="mb-3">
