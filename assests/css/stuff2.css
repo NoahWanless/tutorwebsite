@@ -4,6 +4,7 @@
 
 .dropdown-check-list .anchor {
   position: relative;
+  border-radius: 20px;
   cursor: pointer;
   display: inline-block;
   padding: 5px 50px 5px 10px;
@@ -49,3 +50,5 @@
 .dropdown-check-list.visible .items {
   display: block;
 }
+
+
