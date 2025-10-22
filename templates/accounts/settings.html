@@ -1,5 +1,406 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block content %}
-<h1>Account Settings</h1>
+<script type="application/json" id="saved-schedule-data">
+{{ saved_schedule_json|safe }}
+</script>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-3 col-lg-2 sidebar">
+            <div class="list-group">
+                <a href="#account-details" class="list-group-item list-group-item-action {% if active_section == 'account_details' %}active{% endif %}" 
+                   onclick="showSection('account-details')">
+                    <i class="fas fa-user"></i> Account Details
+                </a>
+                <a href="#availability" class="list-group-item list-group-item-action {% if active_section == 'availability' %}active{% endif %}" 
+                   onclick="showSection('availability')">
+                    <i class="fas fa-calendar-alt"></i> Classes/Availability
+                </a>
+            </div>
+        </div>
+
+        <div class="col-md-9 col-lg-10 main-content">
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <h1 class="h2">Account Settings</h1>
+            </div>
+
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            <div id="account-details" class="settings-section {% if active_section != 'account_details' %}d-none{% endif %}">
+                <h3>Account Details</h3>
+                <p class="text-muted">Update your personal information and contact details.</p>
+                
+                <form method="post" class="needs-validation" novalidate>
+                    {% csrf_token %}
+                    <input type="hidden" name="account_details" value="1">
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="{{ account_form.first_name.id_for_label }}" class="form-label">First Name</label>
+                            {{ account_form.first_name }}
+                            {% if account_form.first_name.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {{ account_form.first_name.errors.0 }}
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="{{ account_form.last_name.id_for_label }}" class="form-label">Last Name</label>
+                            {{ account_form.last_name }}
+                            {% if account_form.last_name.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {{ account_form.last_name.errors.0 }}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="{{ account_form.email.id_for_label }}" class="form-label">Email Address</label>
+                        {{ account_form.email }}
+                        {% if account_form.email.errors %}
+                            <div class="invalid-feedback d-block">
+                                {{ account_form.email.errors.0 }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">Update Account Details</button>
+                </form>
+            </div>
+
+            <div id="availability" class="settings-section {% if active_section != 'availability' %}d-none{% endif %}">
+                <h3>Classes & Availability</h3>
+                <p class="text-muted">Set your available days, classes you can tutor, and your weekly schedule.</p>
+                
+                <form method="post" class="needs-validation" novalidate id="availability-form">
+                    {% csrf_token %}
+                    <input type="hidden" name="availability" value="1">
+                    <input type="hidden" name="selected_availability" id="selected-availability-input" value="">
+                    
+                    <div class="mb-4">
+                        <h5>Classes You Can Tutor</h5>
+                        <div class="row">
+                            {% for choice in availability_form.classes_tutor_for %}
+                                <div class="col-md-4 col-sm-6 mb-2">
+                                    <div class="form-check">
+                                        {{ choice.tag }}
+                                        <label class="form-check-label" for="{{ choice.id_for_label }}">
+                                            {{ choice.choice_label }}
+                                        </label>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        {% if availability_form.classes_tutor_for.errors %}
+                            <div class="text-danger">
+                                {{ availability_form.classes_tutor_for.errors.0 }}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="mb-4">
+                        <h5>Weekly Schedule</h5>
+                        <p class="text-muted">Select a day and times, then click "Add day and time".</p>
+                        
+                        <div class="row g-4">
+                            <div class="col-lg-7">
+                                <div class="mb-3">
+                                    <label class="form-label" for="day-select">Select Day</label>
+                                    <select id="day-select" class="form-select" name="day">
+                                        <option value="" selected disabled>Choose a day</option>
+                                        {% for value,label in days_choices %}
+                                            <option value="{{ value }}">{{ label }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label">Select Times</label>
+                                    <div class="schedule-grid">
+                                        {% for value,label in hour_choices %}
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="checkbox" id="hour-{{ value }}" name="hours" value="{{ value }}">
+                                                <label class="form-check-label" for="hour-{{ value }}">{{ label }}</label>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                
+                                <button type="button" class="btn btn-primary" onclick="addDayAndTime()">Add Day and Time</button>
+                            </div>
+                            <div class="col-lg-5">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h6 class="card-title">Selected Availability</h6>
+                                        <div id="availability-summary">
+                                            <p class="text-muted mb-0">No availability selected yet.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary" onclick="console.log('Submitting form with data:', window.selectedAvailability)">Save Availability</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.sidebar {
+    background-color: #f8f9fa;
+    min-height: calc(100vh - 56px);
+    padding: 20px 0;
+}
+
+.sidebar .list-group-item {
+    border: none;
+    border-radius: 0;
+    padding: 12px 20px;
+    color: #495057;
+    text-decoration: none;
+}
+
+.sidebar .list-group-item:hover {
+    background-color: #e9ecef;
+    color: #495057;
+}
+
+.sidebar .list-group-item.active {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.sidebar .list-group-item i {
+    margin-right: 8px;
+    width: 16px;
+}
+
+.main-content {
+    padding: 20px;
+}
+
+.settings-section {
+    background: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.schedule-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.form-check-inline {
+    margin-right: 15px;
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        min-height: auto;
+        padding: 10px 0;
+    }
+    
+    .main-content {
+        padding: 10px;
+    }
+    
+    .settings-section {
+        padding: 20px;
+    }
+}
+</style>
+
+<script>
+function showSection(sectionId) {
+    document.querySelectorAll('.settings-section').forEach(section => {
+        section.classList.add('d-none');
+    });
+    
+    document.getElementById(sectionId).classList.remove('d-none');
+
+    document.querySelectorAll('.sidebar .list-group-item').forEach(item => {
+        item.classList.remove('active');
+    });
+    
+    event.target.classList.add('active');
+}
+
+window.selectedAvailability = {};
+
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Loading saved schedule...');
+
+    try {
+        const savedScheduleElement = document.getElementById('saved-schedule-data');
+        console.log('Found saved-schedule-data element:', savedScheduleElement);
+        if (savedScheduleElement) {
+            console.log('Element text content:', savedScheduleElement.textContent);
+            console.log('Element text content trimmed:', savedScheduleElement.textContent.trim());
+            if (savedScheduleElement.textContent.trim()) {
+                const savedScheduleData = JSON.parse(savedScheduleElement.textContent);
+                console.log('Loaded saved schedule:', savedScheduleData);
+
+                if (savedScheduleData && Array.isArray(savedScheduleData)) {
+                    savedScheduleData.forEach(function(dayData) {
+                        console.log('Adding day data:', dayData);
+                        window.selectedAvailability[dayData.day_value] = dayData.hour_values;
+                    });
+                } else {
+                    console.log('No saved schedule data or not an array:', savedScheduleData);
+                }
+            } else {
+                console.log('Element found but text content is empty');
+            }
+        } else {
+            console.log('No saved schedule data element found');
+ 
+            console.log('Checking for existing form data...');
+        }
+    } catch (error) {
+        console.error('Error loading saved schedule:', error);
+    }
+    
+    console.log('Final selectedAvailability:', window.selectedAvailability);
+
+    updateAvailabilitySummary();
+
+    const availabilityForm = document.getElementById('availability-form');
+    if (availabilityForm) {
+        availabilityForm.addEventListener('submit', function(e) { //selected avaiability to json
+            const selectedAvailabilityJson = JSON.stringify(window.selectedAvailability);
+            document.getElementById('selected-availability-input').value = selectedAvailabilityJson;
+            console.log('Submitting availability:', selectedAvailabilityJson);
+        });
+    }
+
+    const daySelect = document.getElementById('day-select');
+    if (daySelect) {
+        daySelect.addEventListener('change', function() {
+            loadExistingTimesForDay(this.value);
+        });
+    }
+});
+
+function loadExistingTimesForDay(dayValue) {
+    document.querySelectorAll('input[name="hours"]').forEach(checkbox => {
+        checkbox.checked = false;
+    });
+    if (dayValue && window.selectedAvailability[dayValue]) {
+        const existingHours = window.selectedAvailability[dayValue];
+        console.log(`Loading existing times for day ${dayValue}:`, existingHours);
+        
+        existingHours.forEach(hour => {
+            const checkbox = document.getElementById(`hour-${hour}`);
+            if (checkbox) {
+                checkbox.checked = true;
+            }
+        });
+        
+        const dayNames = {
+            '1': 'Monday', '2': 'Tuesday', '3': 'Wednesday', '4': 'Thursday',
+            '5': 'Friday', '6': 'Saturday', '7': 'Sunday'
+        };
+        const dayName = dayNames[dayValue];
+        console.log(`Loaded existing times for ${dayName}`);
+    }
+}
+
+function addDayAndTime() {
+    const daySelect = document.getElementById('day-select');
+    const selectedHours = Array.from(document.querySelectorAll('input[name="hours"]:checked')).map(cb => cb.value);
+    
+    if (!daySelect.value) {
+        alert('Please select a day first');
+        return;
+    }
+    
+    if (selectedHours.length === 0) {
+        alert('Please select at least one time slot');
+        return;
+    }
+
+    window.selectedAvailability[daySelect.value] = selectedHours;
+
+    updateAvailabilitySummary();
+
+    daySelect.value = '';
+    document.querySelectorAll('input[name="hours"]').forEach(checkbox => {
+        checkbox.checked = false;
+    });
+}
+
+function updateAvailabilitySummary() {
+    console.log("UpdateAvailability called")
+    const summaryDiv = document.getElementById('availability-summary');
+    const dayNames = {
+        '1': 'Monday', '2': 'Tuesday', '3': 'Wednesday', '4': 'Thursday',
+        '5': 'Friday', '6': 'Saturday', '7': 'Sunday'
+    };
+    
+    const hourLabels = {
+        '7': '7-8am', '8': '8-9am', '9': '9-10am', '10': '10-11am',
+        '11': '11-12pm', '12': '12-1pm', '13': '1-2pm', '14': '2-3pm',
+        '15': '3-4pm', '16': '4-5pm', '17': '5-6pm'
+    };
+    
+    console.log('Current selectedAvailability:', window.selectedAvailability);
+    
+    let html = '';
+    Object.keys(window.selectedAvailability).forEach(dayValue => {
+        const dayName = dayNames[dayValue];
+        const hours = window.selectedAvailability[dayValue];
+        console.log(`Processing day ${dayValue} (${dayName}) with hours:`, hours);
+        const hourBadges = hours.map(hour => {
+            const label = hourLabels[hour] || hour;
+            console.log(`Mapping hour ${hour} to label ${label}`);
+            return `<span class="badge bg-secondary me-1 mb-1">${label}</span>`;
+        }).join('');
+        
+        html += `
+            <div class="mb-2">
+                <strong>${dayName}</strong><br>
+                <small class="text-muted">${hourBadges}</small>
+            </div>
+        `;
+    });
+    
+    if (html === '') {
+        html = '<p class="text-muted mb-0">No availability selected yet.</p>';
+    }
+    
+    summaryDiv.innerHTML = html;
+}
+
+(function() {
+    'use strict';
+    window.addEventListener('load', function() {
+        var forms = document.getElementsByClassName('needs-validation');
+        var validation = Array.prototype.filter.call(forms, function(form) {
+            form.addEventListener('submit', function(event) {
+                if (form.checkValidity() === false) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                form.classList.add('was-validated');
+            }, false);
+        });
+    }, false);
+})();
+</script>
 {% endblock content %}
+

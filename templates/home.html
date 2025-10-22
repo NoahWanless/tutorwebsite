@@ -2,6 +2,20 @@
 
 {% block title %}Home | Tutoring App{% endblock title %}
 
+{% block extra_css %}
+<style>
+.day-schedule {
+    margin-bottom: 12px;
+}
+.day-name {
+    margin-bottom: 4px;
+}
+.times {
+    line-height: 1.4;
+}
+</style>
+{% endblock extra_css %}
+
 {% block content %}
 <div class="py-4">
     <div class="text-center mb-5">
@@ -32,16 +46,167 @@
                     </div>
                     
                     <div class="mb-3">
-                        <strong>Available Days:</strong><br>
-                        <div class="d-flex flex-wrap gap-1">
+                        <strong>Schedule:</strong><br>
+                        <div class="schedule-display">
                             {% for day in tutor.days_tutor_for %}
-                                {% if day == '1' %}<span class="badge bg-info">Monday</span>{% endif %}
-                                {% if day == '2' %}<span class="badge bg-info">Tuesday</span>{% endif %}
-                                {% if day == '3' %}<span class="badge bg-info">Wednesday</span>{% endif %}
-                                {% if day == '4' %}<span class="badge bg-info">Thursday</span>{% endif %}
-                                {% if day == '5' %}<span class="badge bg-info">Friday</span>{% endif %}
-                                {% if day == '6' %}<span class="badge bg-info">Saturday</span>{% endif %}
-                                {% if day == '7' %}<span class="badge bg-info">Sunday</span>{% endif %}
+                                <div class="day-schedule mb-3">
+                                    {% if day == '1' %}
+                                        <div class="d-flex flex-wrap gap-1 mb-2">
+                                            <span class="badge bg-info">Monday</span>
+                                        </div>
+                                        <div class="times text-muted small">
+                                            <!-- Debug: {{ tutor.hours_tutor_for_mon|length }} times for Monday -->
+                                            {% for time in tutor.hours_tutor_for_mon %}
+                                                {% if time == '7' %}<span class="badge bg-secondary me-1 mb-1">7-8am</span>{% endif %}
+                                                {% if time == '8' %}<span class="badge bg-secondary me-1 mb-1">8-9am</span>{% endif %}
+                                                {% if time == '9' %}<span class="badge bg-secondary me-1 mb-1">9-10am</span>{% endif %}
+                                                {% if time == '10' %}<span class="badge bg-secondary me-1 mb-1">10-11am</span>{% endif %}
+                                                {% if time == '11' %}<span class="badge bg-secondary me-1 mb-1">11-12pm</span>{% endif %}
+                                                {% if time == '12' %}<span class="badge bg-secondary me-1 mb-1">12-1pm</span>{% endif %}
+                                                {% if time == '13' %}<span class="badge bg-secondary me-1 mb-1">1-2pm</span>{% endif %}
+                                                {% if time == '14' %}<span class="badge bg-secondary me-1 mb-1">2-3pm</span>{% endif %}
+                                                {% if time == '15' %}<span class="badge bg-secondary me-1 mb-1">3-4pm</span>{% endif %}
+                                                {% if time == '16' %}<span class="badge bg-secondary me-1 mb-1">4-5pm</span>{% endif %}
+                                                {% if time == '17' %}<span class="badge bg-secondary me-1 mb-1">5-6pm</span>{% endif %}
+                                            {% empty %}
+                                                <span class="text-muted">No times set ({{ tutor.hours_tutor_for_mon|length }} items)</span>
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                    {% if day == '2' %}
+                                        <div class="d-flex flex-wrap gap-1 mb-2">
+                                            <span class="badge bg-info">Tuesday</span>
+                                        </div>
+                                        <div class="times text-muted small">
+                                            <!-- Debug: {{ tutor.hours_tutor_for_tue|length }} times for Tuesday -->
+                                            {% for time in tutor.hours_tutor_for_tue %}
+                                                {% if time == '7' %}<span class="badge bg-secondary me-1 mb-1">7-8am</span>{% endif %}
+                                                {% if time == '8' %}<span class="badge bg-secondary me-1 mb-1">8-9am</span>{% endif %}
+                                                {% if time == '9' %}<span class="badge bg-secondary me-1 mb-1">9-10am</span>{% endif %}
+                                                {% if time == '10' %}<span class="badge bg-secondary me-1 mb-1">10-11am</span>{% endif %}
+                                                {% if time == '11' %}<span class="badge bg-secondary me-1 mb-1">11-12pm</span>{% endif %}
+                                                {% if time == '12' %}<span class="badge bg-secondary me-1 mb-1">12-1pm</span>{% endif %}
+                                                {% if time == '13' %}<span class="badge bg-secondary me-1 mb-1">1-2pm</span>{% endif %}
+                                                {% if time == '14' %}<span class="badge bg-secondary me-1 mb-1">2-3pm</span>{% endif %}
+                                                {% if time == '15' %}<span class="badge bg-secondary me-1 mb-1">3-4pm</span>{% endif %}
+                                                {% if time == '16' %}<span class="badge bg-secondary me-1 mb-1">4-5pm</span>{% endif %}
+                                                {% if time == '17' %}<span class="badge bg-secondary me-1 mb-1">5-6pm</span>{% endif %}
+                                            {% empty %}
+                                                <span class="text-muted">No times set ({{ tutor.hours_tutor_for_tue|length }} items)</span>
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                    {% if day == '3' %}
+                                        <div class="d-flex flex-wrap gap-1 mb-2">
+                                            <span class="badge bg-info">Wednesday</span>
+                                        </div>
+                                        <div class="times text-muted small">
+                                            {% for time in tutor.hours_tutor_for_wed %}
+                                                {% if time == '7' %}<span class="badge bg-secondary me-1 mb-1">7-8am</span>{% endif %}
+                                                {% if time == '8' %}<span class="badge bg-secondary me-1 mb-1">8-9am</span>{% endif %}
+                                                {% if time == '9' %}<span class="badge bg-secondary me-1 mb-1">9-10am</span>{% endif %}
+                                                {% if time == '10' %}<span class="badge bg-secondary me-1 mb-1">10-11am</span>{% endif %}
+                                                {% if time == '11' %}<span class="badge bg-secondary me-1 mb-1">11-12pm</span>{% endif %}
+                                                {% if time == '12' %}<span class="badge bg-secondary me-1 mb-1">12-1pm</span>{% endif %}
+                                                {% if time == '13' %}<span class="badge bg-secondary me-1 mb-1">1-2pm</span>{% endif %}
+                                                {% if time == '14' %}<span class="badge bg-secondary me-1 mb-1">2-3pm</span>{% endif %}
+                                                {% if time == '15' %}<span class="badge bg-secondary me-1 mb-1">3-4pm</span>{% endif %}
+                                                {% if time == '16' %}<span class="badge bg-secondary me-1 mb-1">4-5pm</span>{% endif %}
+                                                {% if time == '17' %}<span class="badge bg-secondary me-1 mb-1">5-6pm</span>{% endif %}
+                                            {% empty %}
+                                                <span class="text-muted">No times set</span>
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                    {% if day == '4' %}
+                                        <div class="d-flex flex-wrap gap-1 mb-2">
+                                            <span class="badge bg-info">Thursday</span>
+                                        </div>
+                                        <div class="times text-muted small">
+                                            {% for time in tutor.hours_tutor_for_thr %}
+                                                {% if time == '7' %}<span class="badge bg-secondary me-1 mb-1">7-8am</span>{% endif %}
+                                                {% if time == '8' %}<span class="badge bg-secondary me-1 mb-1">8-9am</span>{% endif %}
+                                                {% if time == '9' %}<span class="badge bg-secondary me-1 mb-1">9-10am</span>{% endif %}
+                                                {% if time == '10' %}<span class="badge bg-secondary me-1 mb-1">10-11am</span>{% endif %}
+                                                {% if time == '11' %}<span class="badge bg-secondary me-1 mb-1">11-12pm</span>{% endif %}
+                                                {% if time == '12' %}<span class="badge bg-secondary me-1 mb-1">12-1pm</span>{% endif %}
+                                                {% if time == '13' %}<span class="badge bg-secondary me-1 mb-1">1-2pm</span>{% endif %}
+                                                {% if time == '14' %}<span class="badge bg-secondary me-1 mb-1">2-3pm</span>{% endif %}
+                                                {% if time == '15' %}<span class="badge bg-secondary me-1 mb-1">3-4pm</span>{% endif %}
+                                                {% if time == '16' %}<span class="badge bg-secondary me-1 mb-1">4-5pm</span>{% endif %}
+                                                {% if time == '17' %}<span class="badge bg-secondary me-1 mb-1">5-6pm</span>{% endif %}
+                                            {% empty %}
+                                                <span class="text-muted">No times set</span>
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                    {% if day == '5' %}
+                                        <div class="d-flex flex-wrap gap-1 mb-2">
+                                            <span class="badge bg-info">Friday</span>
+                                        </div>
+                                        <div class="times text-muted small">
+                                            {% for time in tutor.hours_tutor_for_fri %}
+                                                {% if time == '7' %}<span class="badge bg-secondary me-1 mb-1">7-8am</span>{% endif %}
+                                                {% if time == '8' %}<span class="badge bg-secondary me-1 mb-1">8-9am</span>{% endif %}
+                                                {% if time == '9' %}<span class="badge bg-secondary me-1 mb-1">9-10am</span>{% endif %}
+                                                {% if time == '10' %}<span class="badge bg-secondary me-1 mb-1">10-11am</span>{% endif %}
+                                                {% if time == '11' %}<span class="badge bg-secondary me-1 mb-1">11-12pm</span>{% endif %}
+                                                {% if time == '12' %}<span class="badge bg-secondary me-1 mb-1">12-1pm</span>{% endif %}
+                                                {% if time == '13' %}<span class="badge bg-secondary me-1 mb-1">1-2pm</span>{% endif %}
+                                                {% if time == '14' %}<span class="badge bg-secondary me-1 mb-1">2-3pm</span>{% endif %}
+                                                {% if time == '15' %}<span class="badge bg-secondary me-1 mb-1">3-4pm</span>{% endif %}
+                                                {% if time == '16' %}<span class="badge bg-secondary me-1 mb-1">4-5pm</span>{% endif %}
+                                                {% if time == '17' %}<span class="badge bg-secondary me-1 mb-1">5-6pm</span>{% endif %}
+                                            {% empty %}
+                                                <span class="text-muted">No times set</span>
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                    {% if day == '6' %}
+                                        <div class="d-flex flex-wrap gap-1 mb-2">
+                                            <span class="badge bg-info">Saturday</span>
+                                        </div>
+                                        <div class="times text-muted small">
+                                            {% for time in tutor.hours_tutor_for_sat %}
+                                                {% if time == '7' %}<span class="badge bg-secondary me-1 mb-1">7-8am</span>{% endif %}
+                                                {% if time == '8' %}<span class="badge bg-secondary me-1 mb-1">8-9am</span>{% endif %}
+                                                {% if time == '9' %}<span class="badge bg-secondary me-1 mb-1">9-10am</span>{% endif %}
+                                                {% if time == '10' %}<span class="badge bg-secondary me-1 mb-1">10-11am</span>{% endif %}
+                                                {% if time == '11' %}<span class="badge bg-secondary me-1 mb-1">11-12pm</span>{% endif %}
+                                                {% if time == '12' %}<span class="badge bg-secondary me-1 mb-1">12-1pm</span>{% endif %}
+                                                {% if time == '13' %}<span class="badge bg-secondary me-1 mb-1">1-2pm</span>{% endif %}
+                                                {% if time == '14' %}<span class="badge bg-secondary me-1 mb-1">2-3pm</span>{% endif %}
+                                                {% if time == '15' %}<span class="badge bg-secondary me-1 mb-1">3-4pm</span>{% endif %}
+                                                {% if time == '16' %}<span class="badge bg-secondary me-1 mb-1">4-5pm</span>{% endif %}
+                                                {% if time == '17' %}<span class="badge bg-secondary me-1 mb-1">5-6pm</span>{% endif %}
+                                            {% empty %}
+                                                <span class="text-muted">No times set</span>
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                    {% if day == '7' %}
+                                        <div class="d-flex flex-wrap gap-1 mb-2">
+                                            <span class="badge bg-info">Sunday</span>
+                                        </div>
+                                        <div class="times text-muted small">
+                                            {% for time in tutor.hours_tutor_for_sun %}
+                                                {% if time == '7' %}<span class="badge bg-secondary me-1 mb-1">7-8am</span>{% endif %}
+                                                {% if time == '8' %}<span class="badge bg-secondary me-1 mb-1">8-9am</span>{% endif %}
+                                                {% if time == '9' %}<span class="badge bg-secondary me-1 mb-1">9-10am</span>{% endif %}
+                                                {% if time == '10' %}<span class="badge bg-secondary me-1 mb-1">10-11am</span>{% endif %}
+                                                {% if time == '11' %}<span class="badge bg-secondary me-1 mb-1">11-12pm</span>{% endif %}
+                                                {% if time == '12' %}<span class="badge bg-secondary me-1 mb-1">12-1pm</span>{% endif %}
+                                                {% if time == '13' %}<span class="badge bg-secondary me-1 mb-1">1-2pm</span>{% endif %}
+                                                {% if time == '14' %}<span class="badge bg-secondary me-1 mb-1">2-3pm</span>{% endif %}
+                                                {% if time == '15' %}<span class="badge bg-secondary me-1 mb-1">3-4pm</span>{% endif %}
+                                                {% if time == '16' %}<span class="badge bg-secondary me-1 mb-1">4-5pm</span>{% endif %}
+                                                {% if time == '17' %}<span class="badge bg-secondary me-1 mb-1">5-6pm</span>{% endif %}
+                                            {% empty %}
+                                                <span class="text-muted">No times set</span>
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
                             {% endfor %}
                         </div>
                     </div>
