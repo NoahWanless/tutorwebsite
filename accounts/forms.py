@@ -12,9 +12,7 @@ class TutorSignUp(UserCreationForm):
     # password.      both these automatically are there
     class Meta:  # get_user_model()
         model = tutors
-        """fields = ('username', 'first_name', 'last_name', 'email', 'password1', 'password2','days_tutor_for','classes_tutor_for','hours_tutor_for_mon',
-                  'hours_tutor_for_tue','hours_tutor_for_wed','hours_tutor_for_thr','hours_tutor_for_fri','hours_tutor_for_sat',
-                  'hours_tutor_for_sun')"""
+        """fields = ('username', 'first_name', 'last_name', 'email', 'password1', 'password2','days_tutor_for','classes_tutor_for')"""
         fields = (
             "username",
             "first_name",
@@ -24,6 +22,8 @@ class TutorSignUp(UserCreationForm):
             "password2",
             "days_tutor_for",
             "classes_tutor_for",
+            'hours_tutor_for_mon','hours_tutor_for_tue','hours_tutor_for_wed',
+            'hours_tutor_for_thr','hours_tutor_for_fri','hours_tutor_for_sat','hours_tutor_for_sun'
         )
         help_texts = {
             "username": None,
