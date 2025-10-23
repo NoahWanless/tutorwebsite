@@ -3,7 +3,9 @@ from django.urls import reverse
 from django.contrib.auth import get_user_model
 from multiselectfield import MultiSelectField
 #models.Model
-HOUR_CHOICES = [
+
+class tutors(get_user_model()):
+    HOUR_CHOICES = [
         ('7','7-8am'),
         ('8','8-9am'),
         ('9','9-10am'),
@@ -16,8 +18,6 @@ HOUR_CHOICES = [
         ('16','4-5pm'),
         ('17','5-6pm'),
     ]
-class tutors(get_user_model()):
-    
     #username = models.ForeignKey( #makes this element a forgin key, ie has to match with primary key of another table
     #    "auth.User",
     #    on_delete=models.CASCADE,
@@ -54,7 +54,37 @@ class tutors(get_user_model()):
     ]
     classes_tutor_for = MultiSelectField(choices=CLASS_CHOICES, min_choices=1, max_choices=6)
 
-
+    def get_days_display(self):
+        display_values = dict(self.DAY_CHOICES)
+        return [display_values[val] for val in self.days_tutor_for]
+    
+    def get_hours_mon_display(self):
+        display_values = dict(self.HOUR_CHOICES)
+        return [display_values[val] for val in self.hours_tutor_for_mon]
+    
+    def get_hours_tue_display(self):
+        display_values = dict(self.HOUR_CHOICES)
+        return [display_values[val] for val in self.hours_tutor_for_tue]
+    
+    def get_hours_wed_display(self):
+        display_values = dict(self.HOUR_CHOICES)
+        return [display_values[val] for val in self.hours_tutor_for_wed]
+    
+    def get_hours_thr_display(self):
+        display_values = dict(self.HOUR_CHOICES)
+        return [display_values[val] for val in self.hours_tutor_for_thr]
+    
+    def get_hours_fri_display(self):
+        display_values = dict(self.HOUR_CHOICES)
+        return [display_values[val] for val in self.hours_tutor_for_fri]
+    
+    def get_hours_sat_display(self):
+        display_values = dict(self.HOUR_CHOICES)
+        return [display_values[val] for val in self.hours_tutor_for_sat]
+    
+    def get_hours_sun_display(self):
+        display_values = dict(self.HOUR_CHOICES)
+        return [display_values[val] for val in self.hours_tutor_for_sun]
     #def __str__(self):
         #return f"{self.first_name} {self.last_name}"
     

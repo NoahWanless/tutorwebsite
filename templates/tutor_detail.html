@@ -14,6 +14,56 @@
   </div>
 
   <h5 class="mt-4">Schedule</h5>
+    <div class="d-flex flex-wrap gap-1">
+    {% for c in tutor.get_days_display %}
+      <div class="d-flex flex-wrap gap-1 flex-column">
+      <span class="badge bg-info">{{ c }}</span>
+      {% if c == "Monday" %}
+        {% for d in tutor.get_hours_mon_display %}
+          <span class="badge bg-secondary">{{ d }}</span>
+        {% endfor %}
+      {% endif %}
+
+      {% if c == "Tuesday" %}
+        {% for d in tutor.get_hours_tue_display %}
+          <span class="badge bg-secondary">{{ d }}</span>
+        {% endfor %}
+      {% endif %}
+
+      {% if c == "Wednesday" %}
+        {% for d in tutor.get_hours_wed_display %}
+          <span class="badge bg-secondary">{{ d }}</span>
+        {% endfor %}
+      {% endif %}
+
+      {% if c == "Thursday" %}
+        {% for d in tutor.get_hours_thr_display %}
+          <span class="badge bg-secondary">{{ d }}</span>
+        {% endfor %}
+      {% endif %}
+
+      {% if c == "Friday" %}
+        {% for d in tutor.get_hours_fri_display %}
+          <span class="badge bg-secondary">{{ d }}</span>
+        {% endfor %}
+      {% endif %}
+
+      {% if c == "Saturday" %}
+        {% for d in tutor.get_hours_sat_display %}
+          <span class="badge bg-secondary">{{ d }}</span>
+        {% endfor %}
+      {% endif %}
+
+      {% if c == "Sunday" %}
+        {% for d in tutor.get_hours_sun_display %}
+          <span class="badge bg-secondary">{{ d }}</span>
+        {% endfor %}
+      {% endif %}
+      </div>
+    {% empty %}
+      <span class="text-muted">None listed</span>
+    {% endfor %}
+    </div>
 
   <a class="btn btn-outline-secondary mt-4" href="{% url 'home' %}">Back</a>
 {% endblock %}
